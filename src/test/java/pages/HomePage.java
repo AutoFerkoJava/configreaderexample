@@ -3,6 +3,7 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utilities.PropertyManager;
 
 public class HomePage extends BasePage {
 
@@ -12,7 +13,7 @@ public class HomePage extends BasePage {
     }
 
     //*********Page Variables*********
-    String baseURL = "http://www.n11.com/";
+    String baseURL = PropertyManager.getInstance().getURL();
 
     //*********Web Elements*********
     String signInButtonClass = "btnSignIn";

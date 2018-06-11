@@ -1,24 +1,27 @@
 package tests;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.LoginPage;
 
-import java.lang.reflect.Method;
+import utilities.PropertyManager;
 
 
 public class LoginTests extends BaseTest {
 
     //Test Data
-    String wrongUsername = "onur@swtestacademy.com";
-    String wrongPassword = "11122233444";
+    String wrongUsername = PropertyManager.getInstance().getWrongUsername();
+    String wrongPassword = PropertyManager.getInstance().getWrongPassword();
 
-    @Test (priority = 0, description="Invalid Login Scenario with wrong username and password.")
-    public void invalidLoginTest_InvalidUserNameInvalidPassword ()  {
+    private HomePage homePage;
+    private LoginPage loginPage;
 
+    @BeforeMethod
+    public void methodLevelSetup() {
         //*************PAGE INSTANTIATIONS*************
-        HomePage homePage = new HomePage(driver,wait);
-        LoginPage loginPage = new LoginPage(driver,wait);
+        homePage = new HomePage(driver,wait);
+        loginPage = new LoginPage(driver,wait);
 
         //*************PAGE METHODS********************
         //Open N11 HomePage
@@ -26,7 +29,11 @@ public class LoginTests extends BaseTest {
 
         //Go to LoginPage
         homePage.goToLoginPage();
+    }
 
+
+    @Test (priority = 1, description="Invalid Login Scenario with wrong username and password.")
+    public void invalidLoginTest_InvalidUserNameInvalidPassword ()  {
         //Login to N11
         loginPage.loginToN11(wrongUsername, wrongPassword);
 
@@ -34,21 +41,14 @@ public class LoginTests extends BaseTest {
         loginPage.verifyLoginPassword(("E-posta adresiniz veya şifreniz hatalı"));
     }
 
-    @Test (priority = 1, description="Invalid Login Scenario with empty username and password.")
+    @Test (priority = 2, description="Invalid Login Scenario with empty username and password.")
     public void invalidLoginTest_EmptyUserEmptyPassword ()  {
-
-        //*************PAGE INSTANTIATIONS*************
-        HomePage homePage = new HomePage(driver,wait);
-        LoginPage loginPage = new LoginPage(driver,wait);
-
-        //*************PAGE METHODS********************
-        homePage.goToN11();
-        homePage.goToLoginPage();
+        //Login to N11
         loginPage.loginToN11("","");
 
         //*************ASSERTIONS***********************
         loginPage.verifyLoginUserName("Lütfen e-posta adresinizi girin.");
-        loginPage.verifyLoginPassword("WRONG MESSAGE FOR FAILURE!");
+        loginPage.verifyLoginPassword("Bu alanın doldurulması zorunludur.");
     }
 
 }
