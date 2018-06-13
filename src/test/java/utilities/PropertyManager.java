@@ -11,7 +11,7 @@ import java.util.Properties;
 public class PropertyManager {
 
     private static PropertyManager instance;
-    private static Object lock = new Object();
+    private static final Object lock = new Object();
     private static String propertyFilePath = System.getProperty("user.dir")+
             "\\src\\test\\resources\\configuration.properties";
     private static String url;
